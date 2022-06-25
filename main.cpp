@@ -1,6 +1,9 @@
-#include <iostream>
+#include "KeyPair.h"
 
-int main() {
-    std::cout << "Hello, World!" << std::endl;
+
+int main()
+{
+    KeyPair a("loh1");
+    a.generateKeyPair();
     return 0;
 }
