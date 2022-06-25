@@ -8,7 +8,7 @@
 #include <openssl/rsa.h>
 #include <openssl/pem.h>
 
-#include <stdio.h>
+#include <cstdio>
 #include <string>
 #include <utility>
 
@@ -24,8 +24,10 @@ public:
 
     void generateKeyPair() const;
 
-    void getPublicKey();
-    void getPrivateKey();
+    EVP_PKEY *getPublicKey();
+    EVP_PKEY *getPrivateKey();
+
+    std::pair<EVP_PKEY*,EVP_PKEY*> getKeyRSApair();
 };
 
 

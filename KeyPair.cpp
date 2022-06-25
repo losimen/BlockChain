@@ -31,38 +31,27 @@ void KeyPair::generateKeyPair() const {
     BN_free(bne);
 }
 
-void KeyPair::getPublicKey() {
+EVP_PKEY *KeyPair::getPublicKey() {
     EVP_PKEY *ret = EVP_PKEY_new();
     FILE *pkeyFile = fopen(std::string(fileName + "_public.pem").c_str(), "r");
 
     if (pkeyFile == nullptr)
         throw std::invalid_argument("There is no such file");
 
-    auto el = PEM_read_PUBKEY(pkeyFile, &ret, nullptr, nullptr);
-
-    BIO *bio_out;
-    bio_out = BIO_new_fp(stdout, BIO_NOCLOSE);
-
-    EVP_PKEY_print_public(bio_out, el, 0, nullptr);
-
-    BIO_free(bio_out);
-    fclose(pkeyFile);
+    return PEM_read_PUBKEY(pkeyFile, &ret, nullptr, nullptr);
 }
 
-void KeyPair::getPrivateKey() {
+EVP_PKEY *KeyPair::getPrivateKey() {
     EVP_PKEY *ret = EVP_PKEY_new();
     FILE *pkeyFile = fopen(std::string(fileName + "_private.pem").c_str(), "r");
 
     if (pkeyFile == nullptr)
         throw std::invalid_argument("There is no such file");
 
-    auto el = PEM_read_PrivateKey(pkeyFile, &ret, nullptr, nullptr);
+    return PEM_read_PrivateKey(pkeyFile, &ret, nullptr, nullptr);
+}
 
-    BIO *bio_out;
-    bio_out = BIO_new_fp(stdout, BIO_NOCLOSE);
+std::pair<EVP_PKEY *, EVP_PKEY *> KeyPair::getKeyRSApair() {
 
-    EVP_PKEY_print_private(bio_out, el, 0, nullptr);
-
-    BIO_free(bio_out);
-    fclose(pkeyFile);
+    return {getPublicKey(),getPublicKey()};
 }
