@@ -53,5 +53,5 @@ EVP_PKEY *KeyPair::getPrivateKey() {
 
 std::pair<EVP_PKEY *, EVP_PKEY *> KeyPair::getKeyRSApair() {
 
-    return {getPublicKey(),getPublicKey()};
+    return {getPublicKey(),getPrivateKey()};
 }

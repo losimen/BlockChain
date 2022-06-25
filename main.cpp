@@ -38,12 +38,11 @@ std::vector<unsigned char> envelope_seal(EVP_PKEY **pub_key, unsigned char *plai
 }
 
 
-std::vector<unsigned char> envelope_open(EVP_PKEY *priv_key, unsigned char *ciphertext, int ciphertext_len,unsigned char *encrypted_key, int encrypted_key_len, unsigned char *iv)
+std::vector<unsigned char> envelope_open(EVP_PKEY *priv_key, unsigned char *ciphertext, int ciphertext_len, unsigned char *encrypted_key, int encrypted_key_len, unsigned char *iv)
 {
 
     EVP_CIPHER_CTX *ctx;
     int len;
-    int plaintext_len;
 
     ctx = EVP_CIPHER_CTX_new();
 
@@ -51,15 +50,10 @@ std::vector<unsigned char> envelope_open(EVP_PKEY *priv_key, unsigned char *ciph
 
     std::vector<unsigned char> plaintext(ciphertext_len);
     EVP_OpenUpdate(ctx, &plaintext[0], &len, ciphertext, ciphertext_len);
-    plaintext_len = len;
 
-
-    EVP_OpenFinal(ctx, &plaintext[0] + len, &len);
-    plaintext_len += len;
-
+    EVP_OpenFinal(ctx, &plaintext[0], &len);
     return plaintext;
 }
-
 
 std::vector<unsigned char> GetBinary(std::string s)
 {
@@ -76,7 +70,6 @@ std::vector<unsigned char> GetBinary(std::string s)
     return b;
 }
 
-
 int main() {
     KeyPair test("loh1");
     auto keypair = test.getKeyRSApair();
@@ -91,9 +84,9 @@ int main() {
     std::vector<unsigned char> cyphered = envelope_seal(&keypair.first,str,strlen((char*)str),
                                                  &encrypted_key,&encrypted_key_len,iv);
     std::string cypheredString=GetHex(cyphered);
+    std::vector<unsigned char> cypheredbinary = GetBinary(cypheredString);
 
-    std::vector<unsigned char> cypheredbinary=GetBinary(cypheredString);
-    std::vector<unsigned char> plaintext = envelope_open(keypair.second,&cypheredbinary[0],cypheredbinary.size(),encrypted_key,encrypted_key_len,iv);
+    std::vector<unsigned char> plaintext = envelope_open(keypair.second,&cypheredbinary[0],cypheredbinary.size(), encrypted_key, encrypted_key_len,iv);
 
     for(char c:plaintext)
         printf("%c",c);
