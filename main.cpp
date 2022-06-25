@@ -1,9 +1,8 @@
 #include "KeyPair.h"
 
+int main() {
+    KeyPair test("loh1");
+    test.getPrivateKey();
 
-int main()
-{
-    KeyPair a("loh1");
-    a.generateKeyPair();
     return 0;
 }
