@@ -25,7 +25,7 @@ public:
     void generateKeyPair() const;
 
     RSA *getPublicKey();
-    RSA *getPrivateKey();
+    RSA *getPrivateKey() const;
 };
 
 

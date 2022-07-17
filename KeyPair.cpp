@@ -7,20 +7,20 @@
 void KeyPair::generateKeyPair() const {
     char secret[] = "loh6";
 
-    RSA * rsa = NULL;
+    RSA * rsa = nullptr;
     unsigned long bits = 1024;
-    FILE * privKey_file = NULL, *pubKey_file = NULL;
+    FILE * privKey_file = nullptr, *pubKey_file = nullptr;
 
-    const EVP_CIPHER *cipher = NULL;
+    const EVP_CIPHER *cipher = nullptr;
 
     privKey_file = fopen(std::string(fileName + "_private.key").c_str(), "wb");
     pubKey_file = fopen(std::string(fileName + "_public.key").c_str(), "wb");
 
-    rsa = RSA_generate_key(bits, RSA_F4, NULL, NULL);
+    rsa = RSA_generate_key(bits, RSA_F4, nullptr, nullptr);
 
     cipher = EVP_get_cipherbyname("bf-ofb");
 
-    PEM_write_RSAPrivateKey(privKey_file, rsa, cipher, NULL, 0, NULL, secret);
+    PEM_write_RSAPrivateKey(privKey_file, rsa, cipher, nullptr, 0, nullptr, secret);
     PEM_write_RSAPublicKey(pubKey_file, rsa);
 
     RSA_free(rsa);
@@ -29,20 +29,20 @@ void KeyPair::generateKeyPair() const {
 }
 
 RSA *KeyPair::getPublicKey() {
-    RSA * pubKey = NULL;
-    FILE * pubKey_file = NULL;
+    RSA * pubKey = nullptr;
+    FILE * pubKey_file = nullptr;
 
     pubKey_file = fopen(std::string(fileName + "_public.key").c_str(), "rb");
-    pubKey = PEM_read_RSAPublicKey(pubKey_file, NULL, NULL, NULL);
+    pubKey = PEM_read_RSAPublicKey(pubKey_file, nullptr, nullptr, nullptr);
     fclose(pubKey_file);
 
     return pubKey;
 }
 
-RSA *KeyPair::getPrivateKey() {
+RSA *KeyPair::getPrivateKey() const {
     char secret[] = "loh6";
 
-    RSA * privKey = NULL;
+    RSA * privKey = nullptr;
     FILE * privKey_file;
 
     OpenSSL_add_all_algorithms();
