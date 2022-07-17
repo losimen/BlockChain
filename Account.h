@@ -21,6 +21,8 @@ public:
     void createNewAccount();
     void createNewAccount(const KeyPair &keyPair);
 
+    void createNewPublicPost();
+    void createNewPrivatePost();
 
     void connectExistingAccount();
 
