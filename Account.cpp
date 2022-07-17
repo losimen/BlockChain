@@ -21,12 +21,20 @@ void Account::setKeyPair(const KeyPair &keyPair) {
 }
 
 void Account::createNewAccount() {
+    // TODO: in future cratedAt has to be field with hash of current block
+
+    createdAt = "hash";
+
     keyPair.setFileName("newAccount");
     keyPair.generateKeyPair();
     reputation = 0;
 }
 
 void Account::createNewAccount(const KeyPair &keyPair) {
+    // TODO: in future cratedAt has to be field with hash of current block
+
+    createdAt = "hash";
+
     Account::keyPair = keyPair;
     reputation = 0;
 }
@@ -34,8 +42,15 @@ void Account::createNewAccount(const KeyPair &keyPair) {
 void Account::connectExistingAccount() {
     // TODO: in future get info from the block
 
-    // in future reputation has to be gathered from the block
+    // in future reputation and cratedAt has to be gathered from the block
     reputation = 1;
+    createdAt = "hash";
+}
+
+int Account::getLifeTime() const {
+    // TODO: function has to count how many block account live
+
+    return 0;
 }
 
 

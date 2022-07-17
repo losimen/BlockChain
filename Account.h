@@ -11,6 +11,8 @@
 class Account {
 private:
     int reputation;
+    std::string createdAt;
+
     KeyPair keyPair;
 
 public:
@@ -19,10 +21,12 @@ public:
     void createNewAccount();
     void createNewAccount(const KeyPair &keyPair);
 
+
     void connectExistingAccount();
 
     int getReputation() const;
     const KeyPair &getKeyPair() const;
+    int getLifeTime() const;
 
     void setReputation(int reputation);
     void setKeyPair(const KeyPair &keyPair);
