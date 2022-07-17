@@ -28,7 +28,7 @@ void KeyPair::generateKeyPair() const {
     fclose(pubKey_file);
 }
 
-RSA *KeyPair::getPublicKey() {
+RSA *KeyPair::getPublicKey() const {
     RSA * pubKey = nullptr;
     FILE * pubKey_file = nullptr;
 
@@ -51,4 +51,12 @@ RSA *KeyPair::getPrivateKey() const {
     fclose(privKey_file);
 
     return privKey;
+}
+
+const std::string &KeyPair::getFileName() const {
+    return fileName;
+}
+
+void KeyPair::setFileName(const std::string &fileName) {
+    KeyPair::fileName = fileName;
 }

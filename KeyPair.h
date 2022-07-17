@@ -18,13 +18,15 @@ public:
     std::string fileName;
 
 public:
-    KeyPair() = delete;
-
+    KeyPair(): fileName(std::string("none")){ }
     explicit KeyPair(std::string fileName): fileName(std::move(fileName)) { }
 
     void generateKeyPair() const;
 
-    RSA *getPublicKey();
+    void setFileName(const std::string &fileName);
+
+    const std::string &getFileName() const;
+    RSA *getPublicKey() const;
     RSA *getPrivateKey() const;
 };
 
