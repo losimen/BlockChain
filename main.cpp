@@ -6,10 +6,8 @@
 
 #include "KeyPair.h"
 
-
-int Encrypt(KeyPair &keyPair, const std::string &toEncrypt, std::string &encodeTxt){
-
-    unsigned char *ctext, *ptext;
+void Encrypt(KeyPair &keyPair, const std::string &toEncrypt, std::string &encryptMsg){
+    unsigned char *encryptMsg_, *plainMsg;
 
     int inlen = int(toEncrypt.size());
     int outlen;
@@ -18,44 +16,38 @@ int Encrypt(KeyPair &keyPair, const std::string &toEncrypt, std::string &encodeT
 
     int key_size = RSA_size(pubKey);
 
-    ctext = (unsigned char *)malloc(key_size);
-    ptext = reinterpret_cast<unsigned char*>(const_cast<char*>(toEncrypt.c_str()));
+    encryptMsg_ = (unsigned char *)malloc(key_size);
+    plainMsg = reinterpret_cast<unsigned char*>(const_cast<char*>(toEncrypt.c_str()));
 
     OpenSSL_add_all_algorithms();
-    outlen = RSA_public_encrypt(inlen, ptext, ctext, pubKey, RSA_PKCS1_PADDING);
+    outlen = RSA_public_encrypt(inlen, plainMsg, encryptMsg_, pubKey, RSA_PKCS1_PADDING);
 
-    encodeTxt = std::string((reinterpret_cast<char*>(ctext)));
-
-    return outlen;
+    encryptMsg = std::string((reinterpret_cast<char*>(encryptMsg_)), outlen);
 }
 
-void Decrypt(KeyPair &keyPair, int inlen, std::string &toEncode){
-    unsigned char *ptext, *ctext;
-    int outlen;
-
+void Decrypt(KeyPair &keyPair, std::string &toDecrpyt){
+    unsigned char *decrpytMsg, *encodeMsg;
     RSA* privKey = keyPair.getPrivateKey();
-
     int key_size = RSA_size(privKey);
 
-    ptext = (unsigned char *)malloc(key_size);
-    ctext = reinterpret_cast<unsigned char*>(const_cast<char*>(toEncode.c_str()));
+    decrpytMsg = (unsigned char *)malloc(key_size);
+    encodeMsg = reinterpret_cast<unsigned char*>(const_cast<char*>(toDecrpyt.c_str()));
 
-    outlen = RSA_private_decrypt(inlen, ctext, ptext, privKey, RSA_PKCS1_PADDING);
-
-    std::string a = ERR_error_string(ERR_get_error(), nullptr);
-
-    std::cout << outlen << ptext << std::endl;
+    RSA_private_decrypt(int(toDecrpyt.size()), encodeMsg, decrpytMsg, privKey, RSA_PKCS1_PADDING);
+    toDecrpyt = std::string((reinterpret_cast<char*>(decrpytMsg)));
 }
 
 int main() {
     KeyPair el("l");
     el.generateKeyPair();
 
-    std::string plainText = "Hello this is";
-    std::string encodeTxt;
+    std::string plainText = "Hello this is Pavlo";
+    std::string encryptedMsg;
 
-    int msgSize = Encrypt(el, plainText, encodeTxt);
-    Decrypt(el, msgSize, encodeTxt);
+    Encrypt(el, plainText, encryptedMsg);
+    Decrypt(el, encryptedMsg);
+
+    std::cout << encryptedMsg << std::endl;
 
     return 0;
 }

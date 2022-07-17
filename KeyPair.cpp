@@ -13,8 +13,8 @@ void KeyPair::generateKeyPair() const {
 
     const EVP_CIPHER *cipher = NULL;
 
-    privKey_file = fopen("private.key", "wb");
-    pubKey_file = fopen("public.key", "wb");
+    privKey_file = fopen(std::string(fileName + "_private.key").c_str(), "wb");
+    pubKey_file = fopen(std::string(fileName + "_public.key").c_str(), "wb");
 
     rsa = RSA_generate_key(bits, RSA_F4, NULL, NULL);
 
@@ -32,7 +32,7 @@ RSA *KeyPair::getPublicKey() {
     RSA * pubKey = NULL;
     FILE * pubKey_file = NULL;
 
-    pubKey_file = fopen("public.key", "rb");
+    pubKey_file = fopen(std::string(fileName + "_public.key").c_str(), "rb");
     pubKey = PEM_read_RSAPublicKey(pubKey_file, NULL, NULL, NULL);
     fclose(pubKey_file);
 
@@ -44,11 +44,9 @@ RSA *KeyPair::getPrivateKey() {
 
     RSA * privKey = NULL;
     FILE * privKey_file;
-    unsigned char *ptext, *ctext;
-    int outlen;
 
     OpenSSL_add_all_algorithms();
-    privKey_file = fopen("private.key", "rb");
+    privKey_file = fopen(std::string(fileName + "_private.key").c_str(), "rb");
     privKey = PEM_read_RSAPrivateKey(privKey_file, nullptr, nullptr, secret);
     fclose(privKey_file);
 
