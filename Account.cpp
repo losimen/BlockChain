@@ -31,4 +31,11 @@ void Account::createNewAccount(const KeyPair &keyPair) {
     reputation = 0;
 }
 
+void Account::connectExistingAccount() {
+    // TODO: in future get info from the block
+
+    // in future reputation has to be gathered from the block
+    reputation = 1;
+}
+
 

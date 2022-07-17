@@ -19,6 +19,8 @@ public:
     void createNewAccount();
     void createNewAccount(const KeyPair &keyPair);
 
+    void connectExistingAccount();
+
     int getReputation() const;
     const KeyPair &getKeyPair() const;
 
