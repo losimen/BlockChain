@@ -9,5 +9,5 @@ set(OPENSSL_LIBRARIES /opt/homebrew/opt/openssl@3/lib)
 find_package(OpenSSL REQUIRED)
 find_package(ZLIB)
 
-add_executable(BlockChain main.cpp KeyPair.cpp KeyPair.h)
+add_executable(BlockChain main.cpp KeyPair.cpp KeyPair.h Account.h Account.cpp)
 target_link_libraries(BlockChain OpenSSL::SSL OpenSSL::Crypto ZLIB::ZLIB)
