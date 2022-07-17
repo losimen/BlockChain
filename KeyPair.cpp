@@ -5,53 +5,52 @@
 #include "KeyPair.h"
 
 void KeyPair::generateKeyPair() const {
-    RSA	*r;
-    BIGNUM	*bne;
-    BIO	*bp_public, *bp_private;
+    char secret[] = "loh6";
 
-    int	bits = 2048;
-    unsigned long e = RSA_F4;
+    RSA * rsa = NULL;
+    unsigned long bits = 1024;
+    FILE * privKey_file = NULL, *pubKey_file = NULL;
 
-    bne = BN_new();
-    BN_set_word(bne,e);
+    const EVP_CIPHER *cipher = NULL;
 
-    r = RSA_new();
-    RSA_generate_key_ex(r, bits, bne, nullptr);
+    privKey_file = fopen("private.key", "wb");
+    pubKey_file = fopen("public.key", "wb");
 
-    bp_public = BIO_new_file(std::string(fileName + "_public.pem").c_str(), "w+");
-    bp_private = BIO_new_file(std::string(fileName + "_private.pem").c_str(), "w+");
+    rsa = RSA_generate_key(bits, RSA_F4, NULL, NULL);
 
-    PEM_write_bio_RSAPublicKey(bp_public, r);
-    PEM_write_bio_RSAPrivateKey(bp_private, r, nullptr, nullptr, 0, nullptr, nullptr);
+    cipher = EVP_get_cipherbyname("bf-ofb");
 
-    BIO_free_all(bp_public);
-    BIO_free_all(bp_private);
+    PEM_write_RSAPrivateKey(privKey_file, rsa, cipher, NULL, 0, NULL, secret);
+    PEM_write_RSAPublicKey(pubKey_file, rsa);
 
-    RSA_free(r);
-    BN_free(bne);
+    RSA_free(rsa);
+    fclose(privKey_file);
+    fclose(pubKey_file);
 }
 
-EVP_PKEY *KeyPair::getPublicKey() {
-    EVP_PKEY *ret = EVP_PKEY_new();
-    FILE *pkeyFile = fopen(std::string(fileName + "_public.pem").c_str(), "r");
+RSA *KeyPair::getPublicKey() {
+    RSA * pubKey = NULL;
+    FILE * pubKey_file = NULL;
 
-    if (pkeyFile == nullptr)
-        throw std::invalid_argument("There is no such file");
+    pubKey_file = fopen("public.key", "rb");
+    pubKey = PEM_read_RSAPublicKey(pubKey_file, NULL, NULL, NULL);
+    fclose(pubKey_file);
 
-    return PEM_read_PUBKEY(pkeyFile, &ret, nullptr, nullptr);
+    return pubKey;
 }
 
-EVP_PKEY *KeyPair::getPrivateKey() {
-    EVP_PKEY *ret = EVP_PKEY_new();
-    FILE *pkeyFile = fopen(std::string(fileName + "_private.pem").c_str(), "r");
+RSA *KeyPair::getPrivateKey() {
+    char secret[] = "loh6";
 
-    if (pkeyFile == nullptr)
-        throw std::invalid_argument("There is no such file");
+    RSA * privKey = NULL;
+    FILE * privKey_file;
+    unsigned char *ptext, *ctext;
+    int outlen;
 
-    return PEM_read_PrivateKey(pkeyFile, &ret, nullptr, nullptr);
-}
+    OpenSSL_add_all_algorithms();
+    privKey_file = fopen("private.key", "rb");
+    privKey = PEM_read_RSAPrivateKey(privKey_file, nullptr, nullptr, secret);
+    fclose(privKey_file);
 
-std::pair<EVP_PKEY *, EVP_PKEY *> KeyPair::getKeyRSApair() {
-
-    return {getPublicKey(),getPrivateKey()};
+    return privKey;
 }

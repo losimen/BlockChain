@@ -24,10 +24,8 @@ public:
 
     void generateKeyPair() const;
 
-    EVP_PKEY *getPublicKey();
-    EVP_PKEY *getPrivateKey();
-
-    std::pair<EVP_PKEY*,EVP_PKEY*> getKeyRSApair();
+    RSA *getPublicKey();
+    RSA *getPrivateKey();
 };
 
 

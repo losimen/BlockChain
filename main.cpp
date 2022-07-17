@@ -1,95 +1,61 @@
-#include "KeyPair.h"
-
-#include <vector>
-#include <sstream>
 #include <iostream>
 
-std::string GetHex(std::vector<unsigned char> v)
-{
-    std::stringstream ss;
-    for(size_t i=0;i<v.size();++i)
-    {
-        char c1[3]={};
-        sprintf(c1,"%02x",v[i]);
-        ss<<c1;
-    }
-    return ss.str();
+#include <openssl/rsa.h>
+#include <openssl/pem.h>
+#include <openssl/err.h>
+
+#include "KeyPair.h"
+
+
+int Encrypt(KeyPair &keyPair, const std::string &toEncrypt, std::string &encodeTxt){
+
+    unsigned char *ctext, *ptext;
+
+    int inlen = int(toEncrypt.size());
+    int outlen;
+
+    RSA* pubKey = keyPair.getPublicKey();
+
+    int key_size = RSA_size(pubKey);
+
+    ctext = (unsigned char *)malloc(key_size);
+    ptext = reinterpret_cast<unsigned char*>(const_cast<char*>(toEncrypt.c_str()));
+
+    OpenSSL_add_all_algorithms();
+    outlen = RSA_public_encrypt(inlen, ptext, ctext, pubKey, RSA_PKCS1_PADDING);
+
+    encodeTxt = std::string((reinterpret_cast<char*>(ctext)));
+
+    return outlen;
 }
 
+void Decrypt(KeyPair &keyPair, int inlen, std::string &toEncode){
+    unsigned char *ptext, *ctext;
+    int outlen;
 
-std::vector<unsigned char> envelope_seal(EVP_PKEY **pub_key, unsigned char *plaintext, int plaintext_len,
-                                    unsigned char **encrypted_key, int *encrypted_key_len, unsigned char *iv)
-{
-    EVP_CIPHER_CTX *ctx;
-    int len;
+    RSA* privKey = keyPair.getPrivateKey();
 
-    ctx = EVP_CIPHER_CTX_new();
-    EVP_SealInit(ctx, EVP_aes_256_cbc(), encrypted_key,encrypted_key_len, iv, pub_key, 1);
+    int key_size = RSA_size(privKey);
 
-    int blocksize=EVP_CIPHER_CTX_block_size(ctx);
+    ptext = (unsigned char *)malloc(key_size);
+    ctext = reinterpret_cast<unsigned char*>(const_cast<char*>(toEncode.c_str()));
 
-    std::vector<unsigned char> cyphered(plaintext_len+blocksize-1);
-    len=cyphered.size();
-    EVP_SealUpdate(ctx, &cyphered[0], &len, plaintext, plaintext_len);
+    outlen = RSA_private_decrypt(inlen, ctext, ptext, privKey, RSA_PKCS1_PADDING);
 
-    EVP_SealFinal(ctx, &cyphered[0] + len, &len);
+    std::string a = ERR_error_string(ERR_get_error(), nullptr);
 
-    return cyphered;
-}
-
-
-std::vector<unsigned char> envelope_open(EVP_PKEY *priv_key, unsigned char *ciphertext, int ciphertext_len, unsigned char *encrypted_key, int encrypted_key_len, unsigned char *iv)
-{
-
-    EVP_CIPHER_CTX *ctx;
-    int len;
-
-    ctx = EVP_CIPHER_CTX_new();
-
-    EVP_OpenInit(ctx, EVP_aes_256_cbc(), encrypted_key,encrypted_key_len, iv, priv_key);
-
-    std::vector<unsigned char> plaintext(ciphertext_len);
-    EVP_OpenUpdate(ctx, &plaintext[0], &len, ciphertext, ciphertext_len);
-
-    EVP_OpenFinal(ctx, &plaintext[0], &len);
-    return plaintext;
-}
-
-std::vector<unsigned char> GetBinary(std::string s)
-{
-    std::vector<unsigned char> b;
-
-    for(size_t i=0;i<s.size();i=i+2)
-    {
-        unsigned int c,c1;
-        char str[2] ={s.c_str()[i],  0};sscanf(str,"%02x",&c);
-        char str1[2]={s.c_str()[i+1],0};sscanf(str1,"%02x",&c1);
-
-        b.push_back((c<<4)+c1);
-    }
-    return b;
+    std::cout << outlen << ptext << std::endl;
 }
 
 int main() {
-    KeyPair test("loh1");
-    auto keypair = test.getKeyRSApair();
+    KeyPair el("l");
+    el.generateKeyPair();
 
-    unsigned char str[]=
-            "I am encrypted4332048230948-2308402934702384-2384092384-0234-20384-2384-2384-234";
+    std::string plainText = "Hello this is";
+    std::string encodeTxt;
 
-    unsigned char iv[EVP_MAX_IV_LENGTH]={};
-    unsigned char *encrypted_key=(unsigned char*)malloc(EVP_PKEY_size(keypair.first));
-    int encrypted_key_len=EVP_PKEY_size(keypair.first);
-
-    std::vector<unsigned char> cyphered = envelope_seal(&keypair.first,str,strlen((char*)str),
-                                                 &encrypted_key,&encrypted_key_len,iv);
-    std::string cypheredString=GetHex(cyphered);
-    std::vector<unsigned char> cypheredbinary = GetBinary(cypheredString);
-
-    std::vector<unsigned char> plaintext = envelope_open(keypair.second,&cypheredbinary[0],cypheredbinary.size(), encrypted_key, encrypted_key_len,iv);
-
-    for(char c:plaintext)
-        printf("%c",c);
+    int msgSize = Encrypt(el, plainText, encodeTxt);
+    Decrypt(el, msgSize, encodeTxt);
 
     return 0;
 }
