@@ -1,6 +1,7 @@
 #include <iostream>
 
 #include "KeyPair.h"
+#include "base64.h"
 
 void encryptPublic(KeyPair &keyPair, const std::string &toEncrypt, std::string &encryptMsg){
     unsigned char *encryptMsg_, *plainMsg;
@@ -71,13 +72,19 @@ void decryptPublic(KeyPair &keyPair, std::string &toDecrpyt){
     RSA_free(publicKey);
 }
 
+
 int main() {
     KeyPair key("l");
+    key.generateKeyPair();
+
     std::string plainText = "Hello this is Pavlo";
     std::string encryptedMsg;
 
     std::cout << "private msg: ";
     encryptPublic(key, plainText, encryptedMsg);
+
+    std::cout << base64_encode(reinterpret_cast<unsigned char*>(const_cast<char*>(encryptedMsg.c_str())), encryptedMsg.size()) << std::endl;
+
     decryptPrivate(key, encryptedMsg);
     std::cout << encryptedMsg << std::endl;
     std::cout << std::endl << std::endl;
@@ -89,6 +96,8 @@ int main() {
     decryptPublic(key, encryptedMsg);
     std::cout << encryptedMsg << std::endl;
     std::cout << std::endl << std::endl;
+
+    std::cout << key.getPublicKeyStr() << std::endl;
 
     return 0;
 }

@@ -11,6 +11,8 @@
 #include <cstdio>
 #include <string>
 #include <utility>
+#include <fstream>
+#include <sstream>
 
 class KeyPair {
 private:
@@ -28,6 +30,8 @@ public:
     const std::string &getFileName() const;
     RSA *getPublicKey() const;
     RSA *getPrivateKey() const;
+
+    std::string getPublicKeyStr() const;
 };
 
 
