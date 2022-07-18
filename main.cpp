@@ -83,7 +83,11 @@ int main() {
     std::cout << "private msg: ";
     encryptPublic(key, plainText, encryptedMsg);
 
-    std::cout << base64_encode(reinterpret_cast<unsigned char*>(const_cast<char*>(encryptedMsg.c_str())), encryptedMsg.size()) << std::endl;
+    std::cout << encryptedMsg.length() << std::endl;
+    std::string temp = base64_encode(reinterpret_cast<unsigned char*>(const_cast<char*>(encryptedMsg.c_str())), encryptedMsg.size());
+
+    encryptedMsg.clear();
+    encryptedMsg = base64_decode(temp);
 
     decryptPrivate(key, encryptedMsg);
     std::cout << encryptedMsg << std::endl;

@@ -1,20 +1,35 @@
 //
-// Created by Павло Коваль on 17.07.2022.
+//  base64 encoding and decoding with C++.
+//  Version: 2.rc.08 (release candidate)
 //
 
-#ifndef BLOCKCHAIN_BASE64_H
-#define BLOCKCHAIN_BASE64_H
+#ifndef BASE64_H_C0CE2A47_D10E_42C9_A27C_C883944E704A
+#define BASE64_H_C0CE2A47_D10E_42C9_A27C_C883944E704A
 
-#ifndef _BASE64_H_
-#define _BASE64_H_
-
-#include <vector>
 #include <string>
-typedef unsigned char BYTE;
 
-std::string base64_encode(BYTE const* buf, unsigned int bufLen);
-std::vector<BYTE> base64_decode(std::string const&);
+#if __cplusplus >= 201703L
+#include <string_view>
+#endif  // __cplusplus >= 201703L
 
-#endif
+std::string base64_encode     (std::string const& s, bool url = false);
+std::string base64_encode_pem (std::string const& s);
+std::string base64_encode_mime(std::string const& s);
 
-#endif //BLOCKCHAIN_BASE64_H
+std::string base64_decode(std::string const& s, bool remove_linebreaks = false);
+std::string base64_encode(unsigned char const*, size_t len, bool url = false);
+
+#if __cplusplus >= 201703L
+//
+// Interface with std::string_view rather than const std::string&
+// Requires C++17
+// Provided by Yannic Bonenberger (https://github.com/Yannic)
+//
+std::string base64_encode     (std::string_view s, bool url = false);
+std::string base64_encode_pem (std::string_view s);
+std::string base64_encode_mime(std::string_view s);
+
+std::string base64_decode(std::string_view s, bool remove_linebreaks = false);
+#endif  // __cplusplus >= 201703L
+
+#endif /* BASE64_H_C0CE2A47_D10E_42C9_A27C_C883944E704A */
