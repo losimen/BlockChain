@@ -18,8 +18,6 @@ void Account::setKeyPair(const KeyPair &keyPair) {
 
 void Account::createNewAccount() {
     // TODO: in future cratedAt has to be field with hash of current block
-    createdAt_ = "hash";
-
     keyPair_.setFileName("newAccount");
 
     keyPair_.generateKeyPair();
@@ -33,8 +31,6 @@ void Account::createNewAccount() {
 
 void Account::createNewAccount(const KeyPair &keyPair) {
     // TODO: in future cratedAt has to be field with hash of current block
-    createdAt_ = "hash";
-
     if (keyPair_.getPublicKeyStr().substr(0, 15) != std::string(15, '0'))
         throw std::invalid_argument("Your public token doesn't start with 15-th zeros");
 
@@ -43,9 +39,7 @@ void Account::createNewAccount(const KeyPair &keyPair) {
 
 void Account::connectExistingAccount() {
     // TODO: in future get info from the block
-
     // in future and createdAt_ has to be gathered from the block
-    createdAt_ = "hash";
 }
 
 int Account::getLifeTime() const {

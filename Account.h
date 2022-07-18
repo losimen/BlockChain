@@ -12,13 +12,10 @@ const int reputationCourse = 100;
 
 class Account {
 private:
-    std::string createdAt_;
-
     KeyPair keyPair_;
+
 public:
-    explicit Account(const std::string &keysFileName): keyPair_(KeyPair(keysFileName)) {
-        createdAt_ = "none";
-    }
+    explicit Account(const std::string &keysFileName): keyPair_(KeyPair(keysFileName)) { }
 
     void createNewAccount();
     void createNewAccount(const KeyPair &keyPair);
