@@ -8,15 +8,17 @@
 #include "KeyPair.h"
 #include <iostream>
 
+const int reputationCourse = 100;
+
 class Account {
 private:
-    int reputation;
-    std::string createdAt;
+    std::string createdAt_;
 
-    KeyPair keyPair;
-
+    KeyPair keyPair_;
 public:
-    explicit Account(const std::string &keysFileName): reputation(0), keyPair(KeyPair(keysFileName)) { }
+    explicit Account(const std::string &keysFileName): keyPair_(KeyPair(keysFileName)) {
+        createdAt_ = "none";
+    }
 
     void createNewAccount();
     void createNewAccount(const KeyPair &keyPair);

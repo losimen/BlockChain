@@ -10,11 +10,11 @@ To provide free space to publish your thoughts without authorities <b>censorship
 ## Communication with other platforms
 - My BlockChain is fully independent of other systems and products
 ## Brief description
-Each user will have `reputation` which depends on user `account life-time`. 
+Each user will have `reputation_` which depends on user `account life-time`. 
 
-`account life-time` depends how many blocks user account exists. Every 100 blocks + 1 `reputation`
+`account life-time` depends how many blocks user account exists. Every 100 blocks + 1 `reputation_`
 
-When user reaches 50 reputation - max score - he becomes `validator`.
+When user reaches 50 reputation_ - max score - he becomes `validator`.
 
 `validator` can participate in `vote system`.
 
@@ -22,11 +22,11 @@ When user reaches 50 reputation - max score - he becomes `validator`.
 
 If `vote system` against user-account reaches:
 - 95% - 100% dislikes - new messages from this account will be ignored by `message queue` and user `public token` will be added to `ban list`
-- 90% - 80% dislikes - new messages from this account will be ignored by `message queue` for 100 blocks and -30 `reputation`
-- 80% - 70% dislikes - new messages from this account will be ignored by `message queue` for 80 blocks and -20 `reputation`
-- 70% - 60% dislikes - new messages from this account will be ignored by `message queue` for 50 blocks and -10 `reputation`
-- 60% - 50% dislikes - new messages from this account will be ignored by `message queue` for 20 blocks and -5 `reputation`
-- 0% - 50% dislikes - user saves his reputation score
+- 90% - 80% dislikes - new messages from this account will be ignored by `message queue` for 100 blocks and -30 `reputation_`
+- 80% - 70% dislikes - new messages from this account will be ignored by `message queue` for 80 blocks and -20 `reputation_`
+- 70% - 60% dislikes - new messages from this account will be ignored by `message queue` for 50 blocks and -10 `reputation_`
+- 60% - 50% dislikes - new messages from this account will be ignored by `message queue` for 20 blocks and -5 `reputation_`
+- 0% - 50% dislikes - user saves his reputation_ score
 
 ## Security of systemc
 - To create new account - user has to find a unique `public key` which must start with 15 zeros
@@ -38,5 +38,5 @@ If `vote system` against user-account reaches:
 Every person who is willing to share his thoughts.
 
 ## Limitations of system
-- When user reputation score is < 0 he automatically will be added to the `ban list` at the new block.
-- one `reputation score` = one `message`
+- When user reputation_ score is < 0 he automatically will be added to the `ban list` at the new block.
+- one `reputation_ score` = one `message`

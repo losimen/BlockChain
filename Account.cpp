@@ -5,46 +5,47 @@
 #include "Account.h"
 
 int Account::getReputation() const {
-    return reputation;
-}
-
-void Account::setReputation(int reputation) {
-    Account::reputation = reputation;
+    return getLifeTime()/reputationCourse;
 }
 
 const KeyPair &Account::getKeyPair() const {
-    return keyPair;
+    return keyPair_;
 }
 
 void Account::setKeyPair(const KeyPair &keyPair) {
-    Account::keyPair = keyPair;
+    Account::keyPair_ = keyPair;
 }
 
 void Account::createNewAccount() {
     // TODO: in future cratedAt has to be field with hash of current block
+    createdAt_ = "hash";
 
-    createdAt = "hash";
+    keyPair_.setFileName("newAccount");
 
-    keyPair.setFileName("newAccount");
-    keyPair.generateKeyPair();
-    reputation = 0;
+    keyPair_.generateKeyPair();
+    while (keyPair_.getPublicKeyStr().substr(0, 15) != std::string(15, '0'))
+    {
+        std::cout << keyPair_.getPublicKeyStr().substr(0, 15) << " "
+                  << std::string(15, '0') << std::endl << std::endl;
+        keyPair_.generateKeyPair();
+    }
 }
 
 void Account::createNewAccount(const KeyPair &keyPair) {
     // TODO: in future cratedAt has to be field with hash of current block
+    createdAt_ = "hash";
 
-    createdAt = "hash";
+    if (keyPair_.getPublicKeyStr().substr(0, 15) != std::string(15, '0'))
+        throw std::invalid_argument("Your public token doesn't start with 15-th zeros");
 
-    Account::keyPair = keyPair;
-    reputation = 0;
+    Account::keyPair_ = keyPair;
 }
 
 void Account::connectExistingAccount() {
     // TODO: in future get info from the block
 
-    // in future reputation and cratedAt has to be gathered from the block
-    reputation = 1;
-    createdAt = "hash";
+    // in future and createdAt_ has to be gathered from the block
+    createdAt_ = "hash";
 }
 
 int Account::getLifeTime() const {
