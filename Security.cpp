@@ -85,3 +85,17 @@ std::string Security::decryptPublicMSG(KeyPair &keyPair, const std::string &toDe
 
     return decryptionResult;
 }
+
+bool Security::isKeyPairValid(KeyPair &keyPair) {
+    try {
+        const std::string originMsg ("originMsg");
+
+        std::string encryptedMsg = encryptPublicMSG(keyPair, originMsg);
+        std::string decryptedMSg = decryptPrivateMSG(keyPair, encryptedMsg);
+
+        return originMsg == decryptedMSg;
+    }
+    catch (...) {
+        return false;
+    }
+}

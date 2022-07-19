@@ -9,6 +9,8 @@
 
 class Security {
 public:
+    static bool isKeyPairValid(KeyPair &keyPair);
+
     // USAGE:
     // --VISIBLE FOR CURRENT USER WHICH PUBLIC KEY YOU HAVE USED:
     // encryptPublic -> decryptPrivate
