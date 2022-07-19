@@ -16,6 +16,8 @@ add_executable(BlockChain
         base64.cpp base64.h
         Security.cpp Security.h
         Message.cpp Message.h
-        Topic.cpp Topic.h)
+        Topic.cpp Topic.h
+        CreateRequest.cpp CreateRequest.h
+        Block.cpp Block.h)
 
 target_link_libraries(BlockChain OpenSSL::SSL OpenSSL::Crypto ZLIB::ZLIB)
