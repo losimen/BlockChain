@@ -40,6 +40,7 @@ void Account::createNewAccount(const KeyPair &keyPair) {
 void Account::connectExistingAccount() {
     // TODO: in future get info from the block
     // in future and createdAt_ has to be gathered from the block
+
 }
 
 int Account::getLifeTime() const {

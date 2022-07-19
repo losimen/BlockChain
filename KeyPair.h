@@ -20,8 +20,13 @@ public:
     std::string fileName;
 
 public:
-    KeyPair(): fileName(std::string("none")){ }
-    explicit KeyPair(std::string fileName): fileName(std::move(fileName)) { }
+    KeyPair():
+        fileName(std::string("none"))
+        {}
+
+    explicit KeyPair(std::string fileName):
+        fileName(std::move(fileName))
+        {}
 
     void generateKeyPair() const;
 

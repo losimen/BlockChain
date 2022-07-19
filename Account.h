@@ -15,7 +15,9 @@ private:
     KeyPair keyPair_;
 
 public:
-    explicit Account(const std::string &keysFileName): keyPair_(KeyPair(keysFileName)) { }
+    explicit Account(const std::string &keysFileName):
+        keyPair_(KeyPair(keysFileName))
+        {}
 
     void createNewAccount();
     void createNewAccount(const KeyPair &keyPair);
