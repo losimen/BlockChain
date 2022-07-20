@@ -1,8 +1,13 @@
 #include <iostream>
+#include <map>
 
-#include "Message.h"
+int main()
+{
 
+    time_t now = time(nullptr);
+    char* dt = ctime(&now);
 
-int main() {
+    std::cout << dt << std::endl;
+
     return 0;
 }

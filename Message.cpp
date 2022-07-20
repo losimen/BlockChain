@@ -16,14 +16,14 @@ Message Message::createPublicMessage(const std::string &topicID, const std::stri
     time_t now = time(nullptr);
     char* dt = ctime(&now);
 
-    messageId_ = Security::SHA256generatorRandom();
+    messageID_ = Security::SHA256generatorRandom();
     messageContent_ = encryptedMessage;
     createdAt_ = dt;
 
     return *this;
 }
 
-Message Message::createPrivateMessage(const std::string &receiverID, const std::string &messageContent) {
+Message Message::createPrivateMessage(const std::string &receiverID, const std::string &topicID, const std::string &messageContent) {
     char secret[] = "loh6";
     BIO* bio = BIO_new(BIO_s_mem());
 
@@ -38,15 +38,15 @@ Message Message::createPrivateMessage(const std::string &receiverID, const std::
     time_t now = time(nullptr);
     char* dt = ctime(&now);
 
-    messageId_ = Security::SHA256generatorRandom();
+    messageID_ = Security::SHA256generatorRandom();
     messageContent_ = encryptedMessage;
     createdAt_ = dt;
 
     return *this;
 }
 
-const std::string &Message::getMessageId() const {
-    return messageId_;
+const std::string &Message::getMessageID() const {
+    return messageID_;
 }
 
 const std::string &Message::getMessageContent() const {
@@ -55,4 +55,8 @@ const std::string &Message::getMessageContent() const {
 
 const std::string &Message::getCreatedAt() const {
     return createdAt_;
+}
+
+const std::string &Message::getTopicId() const {
+    return topicID_;
 }

@@ -12,21 +12,16 @@
 
 class Topic {
 private:
-    const static std::string blockType;
-
-    std::string topicId_;
+    std::string topicID_;
     std::string topicName_;
     std::string topicDescription_;
     std::vector<Message> topicMessages_;
-
     std::string createdAt_;
-public:
-    explicit Topic(std::string topicId):
-        topicId_(std::move(topicId))
-        {}
 
+public:
     void createNewTopic(const std::string &topicName, const std::string &topicDescription);
 
+    const std::string &getTopicID() const;
     const std::vector<Message> &getTopicMessages() const;
     const std::string &getTopicName() const;
     const std::string &getCreatedAt() const;

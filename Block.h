@@ -6,8 +6,9 @@
 #define BLOCKCHAIN_BLOCK_H
 
 #include "CreateRequest.h"
+#include <map>
 
-typedef std::map<std::string, std::vector<std::string>> BlockData;
+typedef std::map<std::string, std::vector<std::vector<std::string>>> BlockData;
 
 class Block {
 private:
@@ -19,8 +20,7 @@ private:
     static std::string getBlockHash_();
 
 public:
-    Block(std::string prevBlockHash);
-
+    explicit Block(std::string prevBlockHash);
 
     Block createNewBlock(const std::vector<RequestData> &listOfRequests);
 

@@ -7,10 +7,7 @@
 
 #include "Topic.h"
 #include "Account.h"
-
-#include <map>
-
-typedef std::map<std::string, std::string> RequestData;
+#include "RequestData.h"
 
 class CreateRequest {
 private:
@@ -30,7 +27,7 @@ public:
     RequestData createNewAccount(const KeyPair &keyPair);
 
     RequestData createNewPublicMessage(const std::string &topicID, const std::string &messageContent);
-    RequestData createNewPrivateMessage(const std::string &topicID, const std::string &messageContent);
+    RequestData createNewPrivateMessage(const std::string &receiverID, const std::string &topicID, const std::string &messageContent);
 
     RequestData createNewTopic(const std::string &topicName, const std::string &topicDescription);
 };

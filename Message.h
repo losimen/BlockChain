@@ -11,17 +11,19 @@
 
 class Message {
 private:
-    std::string messageId_;
+    std::string messageID_;
+    std::string topicID_;
     std::string messageContent_;
-
     std::string createdAt_;
+
 public:
     Message createPublicMessage(const std::string &topicID, const std::string &messageContent);
-    Message createPrivateMessage(const std::string &receiverID, const std::string &messageContent);
+    Message createPrivateMessage(const std::string &receiverID, const std::string &topicID, const std::string &messageContent);
 
-    const std::string &getMessageId() const;
+    const std::string &getMessageID() const;
     const std::string &getMessageContent() const;
     const std::string &getCreatedAt() const;
+    const std::string &getTopicId() const;
 };
 
 #endif //BLOCKCHAIN_MESSAGE_H

@@ -10,30 +10,35 @@ Block::Block(std::string prevBlockHash) :
 {
     currentBlockHash_ = "none";
 
-    blockData["newAccount"] = std::vector<std::string>();
-    blockData["newMessage"] = std::vector<std::string>();
-    blockData["newTopic"] = std::vector<std::string>();
+//    blockData["newAccount"] = std::vector<std::string>();
+//    blockData["newMessage"] = std::vector<std::string>();
+//    blockData["newTopic"] = std::vector<std::string>();
 };
 
 
 Block Block::createNewBlock(const std::vector<RequestData> &listOfRequests) {
     std::string currentHash = getBlockHash_();
 
-    if (listOfRequests.empty()) {
+    if (listOfRequests.empty())
         throw std::runtime_error("List of requests is empty");
-    }
+
 
     for (auto request: listOfRequests) {
-        if (request["type"] == "newAccount") {
-            blockData["newAccount"].push_back(request["data"]);
-        } else if (request["type"] == "newMessage") {
-            blockData["newMessage"].push_back(request["data"]);
-        } else if (request["type"] == "newTopic") {
-            blockData["newTopic"].push_back(request["data"]);
-        }
-        else {
-            throw std::runtime_error("Unknown request type");
-        }
+//        if (request["type"] == "newAccount") {
+//            blockData["newAccount"].push_back(std::vector<std::string>{request["data"]});
+//        } else if (request["type"] == "newMessage") {
+//            std::vector<std::string> tempResult;
+//
+//            for (auto data: request["data"])
+//                tempResult.push_back(data[]);
+//
+//            blockData["newAccount"].push_back(tempResult);
+//        } else if (request["type"] == "newTopic") {
+//            blockData["newAccount"].push_back(std::vector<std::string>{request["data"]});
+//        }
+//        else {
+//            throw std::runtime_error("Unknown request type");
+//        }
     }
 
     return *this;
