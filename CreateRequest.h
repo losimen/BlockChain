@@ -12,9 +12,13 @@
 
 typedef std::map<std::string, std::string> RequestData;
 
-
 class CreateRequest {
 private:
+    // request types:
+    // -0 newTopic
+    // -1 newMessage
+    // -2 newAccount
+
     RequestData requestData_;
 
     Account account_;
@@ -25,7 +29,8 @@ public:
     RequestData createNewAccount();
     RequestData createNewAccount(const KeyPair &keyPair);
 
-
+    RequestData createNewPublicMessage(const std::string &topicID, const std::string &messageContent);
+    RequestData createNewPrivateMessage(const std::string &topicID, const std::string &messageContent);
 };
 
 

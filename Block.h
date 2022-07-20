@@ -5,10 +5,8 @@
 #ifndef BLOCKCHAIN_BLOCK_H
 #define BLOCKCHAIN_BLOCK_H
 
-#include <random>
-#include <utility>
-
 #include "CreateRequest.h"
+
 typedef std::map<std::string, std::vector<std::string>> BlockData;
 
 class Block {
@@ -19,7 +17,6 @@ private:
     std::string prevBlockHash_;
 
     static std::string getBlockHash_();
-    static std::string getRandomString_();
 
 public:
     Block(std::string prevBlockHash);

@@ -39,29 +39,12 @@ Block Block::createNewBlock(const std::vector<RequestData> &listOfRequests) {
     return *this;
 }
 
-std::string Block::getRandomString_() {
-    const int length = 100;
-    std::string result;
-    std::string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789/][';.,=+-_)(*&^%$#@!~`";
-
-    // get random number C++11
-    std::random_device rd;
-    std::mt19937 gen(rd());
-    std::uniform_int_distribution<> dis(0, int(chars.length()) - 1);
-
-    for (int i = 0; i < length; i++) {
-        result += chars[dis(gen)];
-    }
-
-    return result;
-}
-
 
 std::string Block::getBlockHash_() {
-    std::string blockHash = Security::SHA256generator(getRandomString_());
+    std::string blockHash = Security::SHA256generatorRandom();
 
     while (blockHash.substr(0, 15) == std::string(30, '0'))
-        blockHash = Security::SHA256generator(getRandomString_());
+        blockHash = Security::SHA256generatorRandom();
 
     return blockHash;
 }

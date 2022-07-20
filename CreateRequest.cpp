@@ -7,8 +7,8 @@
 RequestData CreateRequest::createNewAccount() {
     KeyPair keyPair = account_.createNewAccount();
 
-    requestData_["fieldName"] = "newAccount";
-    requestData_["fieldData"] = keyPair.getPublicKeyStr();
+    requestData_["type"] = "newAccount";
+    requestData_["data"] = keyPair.getPublicKeyStr();
 
     return requestData_;
 }
@@ -16,10 +16,29 @@ RequestData CreateRequest::createNewAccount() {
 RequestData CreateRequest::createNewAccount(const KeyPair &keyPair) {
     account_.createNewAccount(keyPair);
 
-    requestData_["fieldName"] = "newAccount";
-    requestData_["fieldData"] = keyPair.getPublicKeyStr();
+    requestData_["type"] = "newAccount";
+    requestData_["data"] = keyPair.getPublicKeyStr();
 
     return requestData_;
 }
+
+RequestData CreateRequest::createNewPublicMessage(const std::string &topicID, const std::string &messageContent) {
+    message_.createPublicMessage(topicID, messageContent);
+
+    requestData_["type"] = "newMessage";
+    requestData_["data"] = message_.getMessageContent();
+
+    return requestData_;
+}
+
+RequestData CreateRequest::createNewPrivateMessage(const std::string &topicID, const std::string &messageContent) {
+    message_.createPrivateMessage(topicID, messageContent);
+
+    requestData_["type"] = "newMessage";
+    requestData_["data"] = message_.getMessageContent();
+
+    return requestData_;
+}
+
 
 
