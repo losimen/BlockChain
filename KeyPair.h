@@ -7,6 +7,7 @@
 
 #include <openssl/rsa.h>
 #include <openssl/pem.h>
+#include <openssl/sha.h>
 
 #include <cstdio>
 #include <string>
