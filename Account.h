@@ -19,13 +19,8 @@ public:
         keyPair_(KeyPair(keysFileName))
         {}
 
-    void createNewAccount();
-    void createNewAccount(const KeyPair &keyPair);
-
-    void createNewPublicPost();
-    void createNewPrivatePost();
-
-    void connectExistingAccount();
+    KeyPair createNewAccount();
+    KeyPair createNewAccount(const KeyPair &keyPair);
 
     int getReputation() const;
     const KeyPair &getKeyPair() const;
