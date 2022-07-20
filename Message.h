@@ -11,25 +11,17 @@
 
 class Message {
 private:
-    const static std::string blockType_;
-
     std::string messageId_;
     std::string messageContent_;
 
     std::string createdAt_;
 public:
-    Message(std::string messageId, std::string messageContent, std::string createdAt):
-            messageId_(std::move(messageId)),
-            messageContent_(std::move(messageContent)),
-            createdAt_(std::move(createdAt))
-            {}
+    Message createPublicMessage(const std::string &topicID, const std::string &messageContent);
+    Message createPrivateMessage(const std::string &receiverID, const std::string &messageContent);
 
-    explicit Message(std::string messageId):
-            messageId_(std::move(messageId))
-            {}
-
-    void postPublicMessage();
-    void postPrivateMessage();
+    const std::string &getMessageId() const;
+    const std::string &getMessageContent() const;
+    const std::string &getCreatedAt() const;
 };
 
 #endif //BLOCKCHAIN_MESSAGE_H
