@@ -8,9 +8,14 @@
 #include "KeyPair.h"
 
 class Security {
+private:
+    static std::string getRandomString_();
+
 public:
     static bool isKeyPairValid(KeyPair &keyPair);
+
     static std::string SHA256generator(const std::string &input_);
+    static std::string SHA256generatorRandom();
 
     // USAGE:
     // --VISIBLE FOR CURRENT USER WHICH PUBLIC KEY YOU HAVE USED:
@@ -24,6 +29,13 @@ public:
 
     static std::string decryptPrivateMSG(KeyPair &keyPair, const std::string &toDecrpyt);
     static std::string decryptPublicMSG(KeyPair &keyPair, const std::string &toDecrpyt);
+
+
+    static std::string encryptPublicMSG(RSA *publicKey, const std::string &toEncrypt);
+    static std::string encryptPrivateMSG(RSA *privateKey, const std::string &toEncrypt);
+
+    static std::string decryptPrivateMSG(RSA *privateKey, const std::string &toDecrpyt);
+    static std::string decryptPublicMSG(RSA *rsa, const std::string &toDecrpyt);
 };
 
 
