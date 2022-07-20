@@ -27,15 +27,10 @@ public:
 
     void createNewTopic(const std::string &topicName, const std::string &topicDescription);
 
-    void addNewPublicMessage(Message &messageToAdd, const std::string &privateKeyFileName);
-    void addNewPrivateMessage(Message &messageToAdd, const std::string &publicKeyFileName);
-
     const std::vector<Message> &getTopicMessages() const;
     const std::string &getTopicName() const;
     const std::string &getCreatedAt() const;
     const std::string &getTopicDescription() const;
-
-    void gatherMessages();
 };
 
 

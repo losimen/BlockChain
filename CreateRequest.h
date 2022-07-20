@@ -31,6 +31,8 @@ public:
 
     RequestData createNewPublicMessage(const std::string &topicID, const std::string &messageContent);
     RequestData createNewPrivateMessage(const std::string &topicID, const std::string &messageContent);
+
+    RequestData createNewTopic(const std::string &topicName, const std::string &topicDescription);
 };
 
 

@@ -23,18 +23,7 @@ const std::string &Topic::getCreatedAt() const {
 }
 
 void Topic::createNewTopic(const std::string &topicName, const std::string &topicDescription) {
-    // TODO: send this topic to the block
-
-    Topic::topicName_ = topicName;
-    Topic::topicDescription_ = topicDescription;
-}
-
-void Topic::addNewPublicMessage(Message &messageToAdd, const std::string &privateKeyFileName) {
-    // TODO: send message to the block
-
-}
-
-void Topic::addNewPrivateMessage(Message &messageToAdd, const std::string &publicKeyFileName) {
-    // TODO: send message to the block
-
+    topicId_ = Security::SHA256generatorRandom();
+    topicName_ = topicName;
+    topicDescription_ = topicDescription;
 }

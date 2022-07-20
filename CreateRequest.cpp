@@ -40,5 +40,11 @@ RequestData CreateRequest::createNewPrivateMessage(const std::string &topicID, c
     return requestData_;
 }
 
+RequestData CreateRequest::createNewTopic(const std::string &topicName, const std::string &topicDescription) {
+    topic_.createNewTopic(topicName, topicDescription);
 
+    requestData_["type"] = "newMessage";
+    requestData_["data"] = message_.getMessageContent();
 
+    return requestData_;
+}
