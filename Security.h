@@ -10,6 +10,7 @@
 class Security {
 public:
     static bool isKeyPairValid(KeyPair &keyPair);
+    static std::string SHA256generator(const std::string &input_);
 
     // USAGE:
     // --VISIBLE FOR CURRENT USER WHICH PUBLIC KEY YOU HAVE USED:

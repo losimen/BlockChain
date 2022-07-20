@@ -99,3 +99,30 @@ bool Security::isKeyPairValid(KeyPair &keyPair) {
         return false;
     }
 }
+
+std::string Security::SHA256generator(const std::string &input_) {
+    auto* input = reinterpret_cast<unsigned char*>(const_cast<char*>(input_.c_str()));
+    unsigned char md[SHA256_DIGEST_LENGTH];
+
+    std::string result ("none");
+    SHA256_CTX context;
+
+    if(!SHA256_Init(&context))
+        return result;
+
+    if(!SHA256_Update(&context, (unsigned char*)input, strlen((char*)input)))
+        return result;
+
+    if(!SHA256_Final(md, &context))
+        return result;
+
+    result.clear();
+    for (unsigned char i : md) {
+        char buffer [4];
+        snprintf ( buffer, 4, "%02x", i );
+
+        result += buffer;
+    }
+
+    return result;
+}
