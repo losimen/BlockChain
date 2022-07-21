@@ -4,35 +4,29 @@
 
 #include "Message.h"
 
-Message Message::createPublicMessage(const std::string &topicID, const std::string &messageContent) {
-    RSA* rsa = convertPublicKeyToRSA(topicID);
-    std::string encryptedMessage = Security::encryptPublicMSG(rsa, messageContent);
-
-//    messageData["creator"] = account_.getPublicKeyStr();
-    messageData["topicID"] = topicID;
-    messageData["messageID"] = Security::SHA256generatorRandom();
-    messageData["messageContent"] = encryptedMessage;
-    messageData["createdAt"] = TimeWorker::getCurrentTime();
-
-    return *this;
+void Message::createPublicMessage(const std::string &topicID, const std::string &messageContent) {
+    messageData_ = {
+         {"topicID", topicID},
+         {"messageID", Security::SHA256generatorRandom()},
+         {"messageContent", messageContent},
+         {"createdAt", TimeWorker::getCurrentTime()}
+    };
 }
 
-Message Message::createPrivateMessage(const std::string &receiverID, const std::string &topicID, const std::string &messageContent) {
+void Message::createPrivateMessage(const std::string &receiverID, const std::string &topicID, const std::string &messageContent) {
     RSA* rsa = convertPrivateKeyToRSA(receiverID);
+    std::string encryptedMsg = Security::encryptPublicMSG(rsa, messageContent);
 
-    std::string encryptedMessage = Security::encryptPublicMSG(rsa, messageContent);
-
-    //    messageData["creator"] = account_.getPublicKeyStr();
-    messageData["topicID"] = topicID;
-    messageData["messageID"] = Security::SHA256generatorRandom();
-    messageData["messageContent"] = encryptedMessage;
-    messageData["createdAt"] = TimeWorker::getCurrentTime();
-
-    return *this;
+    messageData_ = {
+         {"topicID", topicID},
+         {"messageID", Security::SHA256generatorRandom()},
+         {"messageContent", base64_encode(reinterpret_cast<unsigned char*>(const_cast<char*>(encryptedMsg.c_str())), encryptedMsg.size())},
+         {"createdAt", TimeWorker::getCurrentTime()}
+    };
 }
 
 const json &Message::getMessageData() const {
-    return messageData;
+    return messageData_;
 }
 
 RSA *Message::convertPrivateKeyToRSA(const std::string &privateKey) {
@@ -45,12 +39,3 @@ RSA *Message::convertPrivateKeyToRSA(const std::string &privateKey) {
 
     return EVP_PKEY_get1_RSA(evp_key);
 }
-
-RSA *Message::convertPublicKeyToRSA(const std::string &publicKey) {
-    BIO* bio = BIO_new(BIO_s_mem());
-
-    BIO_write(bio, (void*)publicKey.c_str(), int(publicKey.length()));
-    EVP_PKEY* evp_key = PEM_read_bio_PUBKEY(bio, nullptr, nullptr, nullptr);
-    return EVP_PKEY_get1_RSA(evp_key);
-}
-

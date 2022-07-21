@@ -43,4 +43,8 @@ int Account::getLifeTime() const {
     return 0;
 }
 
+Account::Account() {
+
+}
+
 

@@ -15,9 +15,7 @@ private:
     KeyPair keyPair_;
 
 public:
-    explicit Account(const std::string &keysFileName):
-        keyPair_(KeyPair(keysFileName))
-        {}
+    Account();
 
     KeyPair createNewAccount();
     KeyPair createNewAccount(const KeyPair &keyPair);
@@ -26,7 +24,6 @@ public:
     const KeyPair &getKeyPair() const;
     int getLifeTime() const;
 
-    void setReputation(int reputation);
     void setKeyPair(const KeyPair &keyPair);
 };
 

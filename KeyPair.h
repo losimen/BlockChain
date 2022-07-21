@@ -18,6 +18,8 @@
 #include <sstream>
 #include <random>
 
+#include "base64.h"
+
 using json = nlohmann::json;
 
 

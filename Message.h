@@ -12,16 +12,15 @@
 
 class Message {
 private:
-    json messageData;
+    json messageData_;
 
     static RSA *convertPrivateKeyToRSA(const std::string &privateKey);
-    static RSA *convertPublicKeyToRSA(const std::string &publicKey);
 
 public:
     const json &getMessageData() const;
 
-    Message createPublicMessage(const std::string &topicID, const std::string &messageContent);
-    Message createPrivateMessage(const std::string &receiverID, const std::string &topicID, const std::string &messageContent);
+    void createPublicMessage(const std::string &topicID, const std::string &messageContent);
+    void createPrivateMessage(const std::string &receiverID, const std::string &topicID, const std::string &messageContent);
 };
 
 #endif //BLOCKCHAIN_MESSAGE_H

@@ -13,7 +13,7 @@
 
 class Topic {
 private:
-    json topicData;
+    json topicData_;
 
 public:
     void createNewTopic(const std::string &topicName, const std::string &topicDescription);
