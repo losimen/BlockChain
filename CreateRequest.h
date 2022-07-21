@@ -7,7 +7,6 @@
 
 #include "Topic.h"
 #include "Account.h"
-#include "RequestData.h"
 
 class CreateRequest {
 private:
@@ -16,20 +15,19 @@ private:
     // -1 newMessage
     // -2 newAccount
 
-    RequestData requestData_;
+    json requestData_;
 
     Account account_;
     Topic topic_;
     Message message_;
-
 public:
-    RequestData createNewAccount();
-    RequestData createNewAccount(const KeyPair &keyPair);
+    json createNewAccount();
+    json createNewAccount(const KeyPair &keyPair);
 
-    RequestData createNewPublicMessage(const std::string &topicID, const std::string &messageContent);
-    RequestData createNewPrivateMessage(const std::string &receiverID, const std::string &topicID, const std::string &messageContent);
+    json createNewPublicMessage(KeyPair &keyPair, const std::string &topicID, const std::string &messageContent);
+    json createNewPrivateMessage(KeyPair &keyPair, const std::string &receiverID, const std::string &topicID, const std::string &messageContent);
 
-    RequestData createNewTopic(const std::string &topicName, const std::string &topicDescription);
+    json createNewTopic(KeyPair &keyPair, const std::string &topicName, const std::string &topicDescription);
 };
 
 

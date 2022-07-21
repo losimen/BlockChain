@@ -8,22 +8,20 @@
 #include <utility>
 
 #include "Security.h"
+#include "TimeWorker.h"
 
 class Message {
 private:
-    std::string messageID_;
-    std::string topicID_;
-    std::string messageContent_;
-    std::string createdAt_;
+    json messageData;
+
+    static RSA *convertPrivateKeyToRSA(const std::string &privateKey);
+    static RSA *convertPublicKeyToRSA(const std::string &publicKey);
 
 public:
+    const json &getMessageData() const;
+
     Message createPublicMessage(const std::string &topicID, const std::string &messageContent);
     Message createPrivateMessage(const std::string &receiverID, const std::string &topicID, const std::string &messageContent);
-
-    const std::string &getMessageID() const;
-    const std::string &getMessageContent() const;
-    const std::string &getCreatedAt() const;
-    const std::string &getTopicId() const;
 };
 
 #endif //BLOCKCHAIN_MESSAGE_H

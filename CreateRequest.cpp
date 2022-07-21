@@ -4,59 +4,56 @@
 
 #include "CreateRequest.h"
 
-RequestData CreateRequest::createNewAccount() {
+json CreateRequest::createNewAccount() {
     KeyPair keyPair = account_.createNewAccount();
 
-    requestData_.type = "newAccount";
-    requestData_.dataSingular = keyPair.getPublicKeyStr();
+    requestData_["type"] = "newAccount";
+    requestData_["account"] = keyPair.getPublicKeyStr();
 
     return requestData_;
 }
 
-RequestData CreateRequest::createNewAccount(const KeyPair &keyPair) {
+json CreateRequest::createNewAccount(const KeyPair &keyPair) {
     account_.createNewAccount(keyPair);
 
-    requestData_.type = "newAccount";
-    requestData_.dataSingular = keyPair.getPublicKeyStr();
+    requestData_["type"] = "newAccount";
+    requestData_["account"] = keyPair.getPublicKeyStr();
 
     return requestData_;
 }
 
-RequestData CreateRequest::createNewPublicMessage(const std::string &topicID, const std::string &messageContent) {
+json CreateRequest::createNewPublicMessage(KeyPair &keyPair, const std::string &topicID, const std::string &messageContent) {
+    if (Security::isKeyPairValid(keyPair))
+        throw std::runtime_error("KeyPair is not valid");
+
     message_.createPublicMessage(topicID, messageContent);
 
-    requestData_.type = "newMessage";
-
-    requestData_.dataPlural.push_back(message_.getMessageID());
-    requestData_.dataPlural.push_back(message_.getTopicId());
-    requestData_.dataPlural.push_back(message_.getMessageContent());
-    requestData_.dataPlural.push_back(message_.getCreatedAt());
+    requestData_ = message_.getMessageData();
+    requestData_["type"] = "newMessage";
 
     return requestData_;
 }
 
-RequestData CreateRequest::createNewPrivateMessage(const std::string &receiverID, const std::string &topicID, const std::string &messageContent) {
+json CreateRequest::createNewPrivateMessage(KeyPair &keyPair, const std::string &receiverID, const std::string &topicID, const std::string &messageContent) {
+    if (Security::isKeyPairValid(keyPair))
+        throw std::runtime_error("KeyPair is not valid");
+
     message_.createPrivateMessage(receiverID, topicID, messageContent);
 
-    requestData_.type = "newMessage";
-
-    requestData_.dataPlural.push_back(message_.getMessageID());
-    requestData_.dataPlural.push_back(message_.getTopicId());
-    requestData_.dataPlural.push_back(message_.getMessageContent());
-    requestData_.dataPlural.push_back(message_.getCreatedAt());
+    requestData_ = message_.getMessageData();
+    requestData_["type"] = "newMessage";
 
     return requestData_;
 }
 
-RequestData CreateRequest::createNewTopic(const std::string &topicName, const std::string &topicDescription) {
+json CreateRequest::createNewTopic(KeyPair &keyPair, const std::string &topicName, const std::string &topicDescription) {
+    if (Security::isKeyPairValid(keyPair))
+        throw std::runtime_error("KeyPair is not valid");
+
     topic_.createNewTopic(topicName, topicDescription);
 
-    requestData_.type = "newTopic";
-
-    requestData_.dataPlural.push_back(topic_.getTopicID());
-    requestData_.dataPlural.push_back(topic_.getTopicName());
-    requestData_.dataPlural.push_back(topic_.getTopicDescription());
-    requestData_.dataPlural.push_back(topic_.getCreatedAt());
+    requestData_ = topic_.getTopicData();
+    requestData_["type"] = "newTopic";
 
     return requestData_;
 }
