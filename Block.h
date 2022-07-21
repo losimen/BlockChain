@@ -18,6 +18,7 @@ private:
     static std::string getBlockHash_();
 
 public:
+    Block() = delete;
     explicit Block(std::string prevBlockHash);
 
     Block createNewBlock(const std::vector<json> &listOfRequests);

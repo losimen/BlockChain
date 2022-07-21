@@ -20,6 +20,7 @@ add_executable(BlockChain
         Topic.cpp Topic.h
         CreateRequest.cpp CreateRequest.h
         Block.cpp Block.h
-        TimeWorker.cpp TimeWorker.h)
+        TimeWorker.cpp TimeWorker.h
+        BlockChain.cpp BlockChain.h)
 
 target_link_libraries(BlockChain OpenSSL::SSL OpenSSL::Crypto ZLIB::ZLIB nlohmann_json::nlohmann_json)
