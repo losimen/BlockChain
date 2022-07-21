@@ -8,6 +8,7 @@ set(OPENSSL_LIBRARIES /opt/homebrew/opt/openssl@3/lib)
 
 find_package(OpenSSL REQUIRED)
 find_package(ZLIB)
+find_package(nlohmann_json 3.2.0 REQUIRED)
 
 add_executable(BlockChain
         main.cpp
@@ -19,6 +20,6 @@ add_executable(BlockChain
         Topic.cpp Topic.h
         CreateRequest.cpp CreateRequest.h
         Block.cpp Block.h
-                  RequestData.h)
+        TimeWorker.cpp TimeWorker.h)
 
-target_link_libraries(BlockChain OpenSSL::SSL OpenSSL::Crypto ZLIB::ZLIB)
+target_link_libraries(BlockChain OpenSSL::SSL OpenSSL::Crypto ZLIB::ZLIB nlohmann_json::nlohmann_json)

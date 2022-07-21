@@ -9,12 +9,16 @@
 #include <openssl/pem.h>
 #include <openssl/sha.h>
 
+#include <nlohmann/json.hpp>
+
 #include <cstdio>
 #include <string>
 #include <utility>
 #include <fstream>
 #include <sstream>
 #include <random>
+
+using json = nlohmann::json;
 
 
 class KeyPair {
