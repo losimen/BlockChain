@@ -17,7 +17,7 @@ Block::Block(std::string prevBlockHash) :
 
 
 Block Block::createNewBlock(const std::vector<json> &listOfRequests) {
-    std::string currentHash = getBlockHash_();
+    std::string currentHash = generateBlockHash_();
 
     if (listOfRequests.empty())
         throw std::runtime_error("List of requests is empty");
@@ -37,11 +37,19 @@ Block Block::createNewBlock(const std::vector<json> &listOfRequests) {
 }
 
 
-std::string Block::getBlockHash_() {
+std::string Block::generateBlockHash_() {
     std::string blockHash = Security::SHA256generatorRandom();
 
     while (blockHash.substr(0, 15) == std::string(30, '0'))
         blockHash = Security::SHA256generatorRandom();
 
     return blockHash;
+}
+
+const std::string &Block::getCurrentBlockHash() const {
+    return currentBlockHash_;
+}
+
+const std::string &Block::getPrevBlockHash() const {
+    return prevBlockHash_;
 }

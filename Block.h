@@ -15,13 +15,15 @@ private:
     std::string currentBlockHash_;
     std::string prevBlockHash_;
 
-    static std::string getBlockHash_();
-
+    static std::string generateBlockHash_();
 public:
     Block() = delete;
     explicit Block(std::string prevBlockHash);
 
     Block createNewBlock(const std::vector<json> &listOfRequests);
+
+    const std::string &getCurrentBlockHash() const;
+    const std::string &getPrevBlockHash() const;
 };
 
 
