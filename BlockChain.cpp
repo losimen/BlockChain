@@ -44,3 +44,9 @@ Block BlockChain::getLastBlock() {
     json lastBlock = blockChain_.back();
     return Block(lastBlock);
 }
+
+double BlockChain::getUserReputation(const std::string &publicKey) {
+    Account account;
+
+    return account.getReputation(publicKey, blockChain_);
+}

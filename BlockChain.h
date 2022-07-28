@@ -20,6 +20,8 @@ public:
     BlockChain();
 
     void validateNewBlock(Block &newBlock);
+    double getUserReputation(const std::string &publicKey);
+
     Block getLastBlock();
 
 };

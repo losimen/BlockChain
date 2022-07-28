@@ -8,21 +8,23 @@
 #include "KeyPair.h"
 #include <iostream>
 
-const int reputationCourse = 100;
 
 class Account {
 private:
-    KeyPair keyPair_;
+    static const int REPUTATION_COURSE;
+    static volatile const int SECURITY_LEVEL;
 
+    KeyPair keyPair_;
 public:
     Account();
 
     KeyPair createNewAccount();
     KeyPair createNewAccount(const KeyPair &keyPair);
 
-    int getReputation() const;
+    int getReputation(const std::string &publicKey, const json& blockChain) const;
+    int getLifeTime(const std::string &publicKey, json blockChain) const;
+
     const KeyPair &getKeyPair() const;
-    int getLifeTime() const;
 
     void setKeyPair(const KeyPair &keyPair);
 };
