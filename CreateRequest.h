@@ -27,7 +27,7 @@ public:
     json createNewPublicMessage(KeyPair &keyPair, const std::string &topicID, const std::string &messageContent);
     json createNewPrivateMessage(KeyPair &keyPair, const std::string &receiverID, const std::string &topicID, const std::string &messageContent);
 
-    json createNewTopic(KeyPair &keyPair, const std::string &topicName, const std::string &topicDescription);
+    json createNewTopic(KeyPair &keyPair, const std::string &topicName, const std::string &topicDescription, const std::string &topicID = Security::SHA256generatorRandom());
 };
 
 

@@ -5,9 +5,9 @@
 #include <iostream>
 #include "Topic.h"
 
-void Topic::createNewTopic(const std::string &creatorID, const std::string &topicName, const std::string &topicDescription) {
+void Topic::createNewTopic(const std::string &creatorID, const std::string &topicName, const std::string &topicDescription, const std::string &topicID) {
     topicData_ = {
-        {"topicID", Security::SHA256generatorRandom()},
+        {"topicID", topicID},
         {"creatorID", creatorID},
         {"topicName", topicName},
         {"topicDescription", topicDescription},

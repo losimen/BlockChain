@@ -16,7 +16,7 @@ private:
     json topicData_;
 
 public:
-    void createNewTopic(const std::string &creatorID, const std::string &topicName, const std::string &topicDescription);
+    void createNewTopic(const std::string &creatorID, const std::string &topicName, const std::string &topicDescription, const std::string &topicID = Security::SHA256generatorRandom());
     const json &getTopicData() const;
 };
 
