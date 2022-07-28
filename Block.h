@@ -5,11 +5,14 @@
 #ifndef BLOCKCHAIN_BLOCK_H
 #define BLOCKCHAIN_BLOCK_H
 
+#include <ostream>
 #include "CreateRequest.h"
 
 
 class Block {
 private:
+    static const int SECURITY_LEVEL;
+
     json blockData;
 
     std::string currentBlockHash_;
@@ -17,6 +20,7 @@ private:
 
     static std::string generateBlockHash_();
 public:
+
     Block() = delete;
     explicit Block(std::string prevBlockHash);
 
@@ -24,6 +28,8 @@ public:
 
     const std::string &getCurrentBlockHash() const;
     const std::string &getPrevBlockHash() const;
+
+    friend std::ostream &operator<<(std::ostream &os, const Block &block);
 };
 
 

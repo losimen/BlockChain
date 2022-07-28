@@ -4,6 +4,7 @@
 
 #include "Block.h"
 
+const int Block::SECURITY_LEVEL = 3;
 
 Block::Block(std::string prevBlockHash) :
         prevBlockHash_(std::move(prevBlockHash))
@@ -17,7 +18,7 @@ Block::Block(std::string prevBlockHash) :
 
 
 Block Block::createNewBlock(const std::vector<json> &listOfRequests) {
-    std::string currentHash = generateBlockHash_();
+    currentBlockHash_ = generateBlockHash_();
 
     if (listOfRequests.empty())
         throw std::runtime_error("List of requests is empty");
@@ -33,6 +34,9 @@ Block Block::createNewBlock(const std::vector<json> &listOfRequests) {
             throw std::runtime_error("Unknown request type");
     }
 
+    blockData["prevBlockHash"] = prevBlockHash_;
+    blockData["currentBlockHash"] = currentBlockHash_;
+
     return *this;
 }
 
@@ -40,7 +44,7 @@ Block Block::createNewBlock(const std::vector<json> &listOfRequests) {
 std::string Block::generateBlockHash_() {
     std::string blockHash = Security::SHA256generatorRandom();
 
-    while (blockHash.substr(0, 15) == std::string(30, '0'))
+    while (blockHash.substr(0, SECURITY_LEVEL) != std::string(SECURITY_LEVEL, '0'))
         blockHash = Security::SHA256generatorRandom();
 
     return blockHash;
@@ -52,4 +56,9 @@ const std::string &Block::getCurrentBlockHash() const {
 
 const std::string &Block::getPrevBlockHash() const {
     return prevBlockHash_;
+}
+
+std::ostream &operator<<(std::ostream &os, const Block &block) {
+    os << block.blockData.dump(4);
+    return os;
 }
