@@ -52,7 +52,7 @@ json CreateRequest::createNewTopic(KeyPair &keyPair, const std::string &topicNam
 
     topic_.createNewTopic(keyPair.getPublicKeyStr(), topicName, topicDescription, topicID);
 
-    requestData_["type"] = "newMessage";
+    requestData_["type"] = "newTopic";
     requestData_["data"] = topic_.getTopicData();
 
     return requestData_;
