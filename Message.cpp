@@ -4,21 +4,23 @@
 
 #include "Message.h"
 
-void Message::createPublicMessage(const std::string &topicID, const std::string &messageContent) {
+void Message::createPublicMessage(const std::string &creatorID, const std::string &topicID, const std::string &messageContent) {
     messageData_ = {
          {"topicID", topicID},
+         {"creatorID", creatorID},
          {"messageID", Security::SHA256generatorRandom()},
          {"messageContent", messageContent},
          {"createdAt", TimeWorker::getCurrentTime()}
     };
 }
 
-void Message::createPrivateMessage(const std::string &receiverID, const std::string &topicID, const std::string &messageContent) {
+void Message::createPrivateMessage(const std::string &creatorID, const std::string &receiverID, const std::string &topicID, const std::string &messageContent) {
     RSA* rsa = convertPrivateKeyToRSA(receiverID);
     std::string encryptedMsg = Security::encryptPublicMSG(rsa, messageContent);
 
     messageData_ = {
          {"topicID", topicID},
+         {"creatorID", creatorID},
          {"messageID", Security::SHA256generatorRandom()},
          {"messageContent", base64_encode(reinterpret_cast<unsigned char*>(const_cast<char*>(encryptedMsg.c_str())), encryptedMsg.size())},
          {"createdAt", TimeWorker::getCurrentTime()}

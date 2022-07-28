@@ -5,9 +5,10 @@
 #include <iostream>
 #include "Topic.h"
 
-void Topic::createNewTopic(const std::string &topicName, const std::string &topicDescription) {
+void Topic::createNewTopic(const std::string &creatorID, const std::string &topicName, const std::string &topicDescription) {
     topicData_ = {
         {"topicID", Security::SHA256generatorRandom()},
+        {"creatorID", creatorID},
         {"topicName", topicName},
         {"topicDescription", topicDescription},
         {"createdAt", TimeWorker::getCurrentTime()}

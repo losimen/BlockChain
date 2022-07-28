@@ -38,7 +38,7 @@ json CreateRequest::createNewPrivateMessage(KeyPair &keyPair, const std::string 
     if (!Security::isKeyPairValid(keyPair))
         throw std::runtime_error("KeyPair is not valid");
 
-    message_.createPrivateMessage(receiverID, topicID, messageContent);
+    message_.createPrivateMessage(keyPair.getPublicKeyStr(), receiverID, topicID, messageContent);
 
     requestData_["type"] = "newMessage";
     requestData_["data"] = message_.getMessageData();
@@ -50,7 +50,7 @@ json CreateRequest::createNewTopic(KeyPair &keyPair, const std::string &topicNam
     if (!Security::isKeyPairValid(keyPair))
         throw std::runtime_error("KeyPair is not valid");
 
-    topic_.createNewTopic(topicName, topicDescription);
+    topic_.createNewTopic(keyPair.getPublicKeyStr(), topicName, topicDescription);
 
     requestData_["type"] = "newMessage";
     requestData_["data"] = topic_.getTopicData();

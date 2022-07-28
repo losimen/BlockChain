@@ -7,7 +7,9 @@
 
 
 class BlockChain {
+private:
 
+public:
 };
 
 

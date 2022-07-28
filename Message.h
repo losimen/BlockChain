@@ -19,8 +19,8 @@ private:
 public:
     const json &getMessageData() const;
 
-    void createPublicMessage(const std::string &topicID, const std::string &messageContent);
-    void createPrivateMessage(const std::string &receiverID, const std::string &topicID, const std::string &messageContent);
+    void createPublicMessage(const std::string &creatorID, const std::string &topicID, const std::string &messageContent);
+    void createPrivateMessage(const std::string &creatorID, const std::string &receiverID, const std::string &topicID, const std::string &messageContent);
 };
 
 #endif //BLOCKCHAIN_MESSAGE_H
