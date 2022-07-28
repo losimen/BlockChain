@@ -73,7 +73,10 @@ std::string KeyPair::getPublicKeyStr() const {
     std::ifstream t(std::string(fileName + "_public.key"));
     std::stringstream buffer;
     buffer << t.rdbuf();
+
+
     std::string publicKey = buffer.str();
+    publicKey.erase(std::remove(publicKey.begin(), publicKey.end(), '\n'), publicKey.cend());
 
     return {publicKey.begin() + 30, publicKey.end() - 30};
 }

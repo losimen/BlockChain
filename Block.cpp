@@ -4,24 +4,29 @@
 
 #include "Block.h"
 
+#include <utility>
+
 const int Block::SECURITY_LEVEL = 3;
 
-Block::Block(std::string prevBlockHash) :
-        prevBlockHash_(std::move(prevBlockHash))
+Block::Block(const std::string& prevBlockHash)
 {
-    currentBlockHash_ = "none";
-
     blockData["newAccount"] = json::array();
     blockData["newMessage"] = json::array();
     blockData["newTopic"] = json::array();
+    blockData["prevBlockHash"] = prevBlockHash;
+    blockData["currentBlockHash"] = "";
 };
 
+Block::Block(json blockData) : blockData(std::move(blockData))
+{}
 
-Block Block::createNewBlock(const std::vector<json> &listOfRequests) {
-    currentBlockHash_ = generateBlockHash_();
 
+Block Block::createNewBlock(const json &listOfRequests) {
     if (listOfRequests.empty())
         throw std::runtime_error("List of requests is empty");
+
+    std::string currentBlockHash = generateBlockHash_();
+    blockData["currentBlockHash"] = currentBlockHash;
 
     for (auto request: listOfRequests) {
         if (request["type"] == "newAccount")
@@ -33,9 +38,6 @@ Block Block::createNewBlock(const std::vector<json> &listOfRequests) {
         else
             throw std::runtime_error("Unknown request type");
     }
-
-    blockData["prevBlockHash"] = prevBlockHash_;
-    blockData["currentBlockHash"] = currentBlockHash_;
 
     return *this;
 }
@@ -50,15 +52,19 @@ std::string Block::generateBlockHash_() {
     return blockHash;
 }
 
-const std::string &Block::getCurrentBlockHash() const {
-    return currentBlockHash_;
-}
-
-const std::string &Block::getPrevBlockHash() const {
-    return prevBlockHash_;
-}
-
 std::ostream &operator<<(std::ostream &os, const Block &block) {
     os << block.blockData.dump(4);
     return os;
+}
+
+const json &Block::getBlockData() const {
+    return blockData;
+}
+
+const json &Block::getCurrentHash() const {
+    return blockData["currentBlockHash"];
+}
+
+const json &Block::getPrevBlockHash() const {
+    return blockData["prevBlockHash"];
 }

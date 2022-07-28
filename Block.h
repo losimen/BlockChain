@@ -15,19 +15,18 @@ private:
 
     json blockData;
 
-    std::string currentBlockHash_;
-    std::string prevBlockHash_;
-
     static std::string generateBlockHash_();
 public:
-
     Block() = delete;
-    explicit Block(std::string prevBlockHash);
 
-    Block createNewBlock(const std::vector<json> &listOfRequests);
+    explicit Block(const std::string& prevBlockHash);
+    explicit Block(json blockData);
 
-    const std::string &getCurrentBlockHash() const;
-    const std::string &getPrevBlockHash() const;
+    Block createNewBlock(const json &listOfRequests);
+
+    const json &getBlockData() const;
+    const json &getCurrentHash() const;
+    const json &getPrevBlockHash() const;
 
     friend std::ostream &operator<<(std::ostream &os, const Block &block);
 };

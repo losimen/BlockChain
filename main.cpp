@@ -1,11 +1,12 @@
 #include <iostream>
-#include <fstream>
 
-#include "Block.h"
+#include "BlockChain.h"
 
 int main()
 {
-    Block block("none");
+    BlockChain blockChain;
+    Block block(std::string(blockChain.getLastBlock().getCurrentHash()));
+
     CreateRequest createRequest;
 
     KeyPair keyPair_other("other");
@@ -19,7 +20,9 @@ int main()
     listOfRequests.push_back(createRequest.createNewPublicMessage(keyPair, "Good", "How are you?"));
 
     block.createNewBlock(listOfRequests);
-    std::cout << block;
+    blockChain.validateNewBlock(block);
+
+//    std::cout << block;
 
     return 0;
 }
