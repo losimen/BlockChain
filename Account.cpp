@@ -4,13 +4,13 @@
 
 #include "Account.h"
 
-const int Account::REPUTATION_COURSE = 100;
+const int Account::REPUTATION_COURSE = 1;
 volatile const int Account::SECURITY_LEVEL = 0;
 
 
 Account::Account() = default;
 
-int Account::getReputation(const std::string &publicKey, const json& blockChain) const {
+int Account::getReputation(const std::string &publicKey, const json& blockChain) {
     return getLifeTime(publicKey, blockChain) / REPUTATION_COURSE;
 }
 
@@ -35,6 +35,8 @@ KeyPair Account::createNewAccount() {
                   << std::string(15, '0') << std::endl << std::endl;
         keyPair_.generateKeyPair();
     }
+
+    return keyPair_;
 }
 
 KeyPair Account::createNewAccount(const KeyPair &keyPair) {
@@ -49,17 +51,19 @@ KeyPair Account::createNewAccount(const KeyPair &keyPair) {
         throw std::invalid_argument("Your public token doesn't match security level");
 
     Account::keyPair_ = keyPair;
+
+    return keyPair_;
 }
 
-int Account::getLifeTime(const std::string& publicKey, json blockChain) const {
+int Account::getLifeTime(const std::string& publicKey, json blockChain) {
     int lifeTime = 0;
 
     std::reverse(blockChain.begin(), blockChain.end());
 
     int temp = 0;
-    for (auto blockIt = blockChain.begin(); blockIt != blockChain.end(); blockIt++) {
+    for (auto & blockIt : blockChain) {
         temp++;
-        if (to_string((*blockIt)["newAccount"]).find(publicKey) != std::string::npos)
+        if (to_string(blockIt["newAccount"]).find(publicKey) != std::string::npos)
         {
             lifeTime = temp;
             break;

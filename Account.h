@@ -21,8 +21,8 @@ public:
     KeyPair createNewAccount();
     KeyPair createNewAccount(const KeyPair &keyPair);
 
-    int getReputation(const std::string &publicKey, const json& blockChain) const;
-    int getLifeTime(const std::string &publicKey, json blockChain) const;
+    static int getReputation(const std::string &publicKey, const json& blockChain) ;
+    static int getLifeTime(const std::string &publicKey, json blockChain) ;
 
     const KeyPair &getKeyPair() const;
 
