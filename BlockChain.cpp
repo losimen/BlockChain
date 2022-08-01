@@ -22,6 +22,10 @@ void BlockChain::validateNewBlock(Block &newBlock) {
     if (newBlock.getPrevBlockHash() != getLastBlock().getCurrentHash() || newBlock.getCurrentHash() == getLastBlock().getCurrentHash())
         throw std::runtime_error("Invalid previous block hash");
 
+    for (const auto& publicKey: newBlock.getBlockData()["newAccount"])
+        if (Account::getReputation(publicKey, blockChain_) > 0)
+            throw std::runtime_error("User with such token is already at the system");
+
     std::ofstream myfile;
     myfile.open (dbFileName_);
     blockChain_.push_back(newBlock.getBlockData());
